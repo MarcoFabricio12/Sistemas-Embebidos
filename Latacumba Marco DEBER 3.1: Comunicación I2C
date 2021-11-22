@@ -1,0 +1,159 @@
+/*
+ * CAPITULO III: MÓDULOS DE COMUNICACIÓN  i2c
+ * CÓDIGO DEBER 3.1 : Comunicación I2C configurar un Maestro y 3 esclavos
+ * OBJETIVO: El usuario envia caracteres 
+ * NOMBRE: Marco Fabricio Latacumba Farinango
+ */
+              /////////////MASTER////////
+#include <Wire.h>;                  // libreria I2C
+char caracter;                      // variable char que almacena al ingresar un caracter
+
+void setup() {
+  char caracter;                   //almacenamiento de caracter 
+  Wire.begin();                    // inicia la transmision I2C
+  Serial.begin(9600);               // comunicacion serial de corrida incial que comienza con 9600 de velocidad
+  Serial.println(" Comunicación I2C "); 
+  Serial.println(" Esclavo  uno = 1 ");     // Ingreso para esclavo 1
+  Serial.println(" Esclavo  dos = 2 ");     // Ingreso para esclavo 2
+  Serial.println(" Esclavo  tres = 3 ");    // Ingresa para esclavo 3
+}
+
+void loop() {
+  if(Serial.available()>0)            // Verifica el puerto de conexión en conjunto de una condicion if 
+  {
+    caracter=Serial.read();          // lectura del dato char
+    Wire.beginTransmission(12);      // Comienzo de comunicación I2C #12
+    Wire.write(caracter);          // Envio de datos
+    Wire.endTransmission();       // Finalización de la comunicación serial
+  }
+
+}
+
+     /////////////ESCLAVO 1////////
+#include <Wire.h>;    // libreria I2C
+char caracter;        // variable char que almacena al ingresar un caracter
+const int led1=8;     // pin 8 conectado al led 1
+const int led2=9;     // pin 9 conectado al led 2 
+const int led3=10;    // pin 10 conectado al led 3 
+
+void setup() {
+  Wire.begin(12);                  // id del esclavo
+  Wire.onReceive(Esclavo1);        // Hace una llamada al trabajo del esclavo 1
+  Serial.begin(9600);             // comunicacion serial de corrida incial que comienza con 9600 
+  pinMode(led1,OUTPUT);           // Declaración al led 1 como salida
+  pinMode(led2,OUTPUT);           // Declaración al led 2 como salida
+  pinMode(led3,OUTPUT);           // Declaración al led 3 como salida
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+
+void Esclavo1 (int bytes){          // Creación del evento void Esclavo 1
+  while(Wire.available())             // Verificación de disponibilidad 
+  {
+    caracter=Wire.read();                 //  Lectura del dato ingresado para el esclavo 1 
+    if(caracter=='1')                     // Condicional if para la comparacion del caracter ingresado en caso se digite el valor 1 
+    {
+      digitalWrite(led1,HIGH);        
+      delay(10000);
+      digitalWrite(led1,LOW);
+      delay(10000);
+      digitalWrite(led2,HIGH);
+      delay(10000);
+      digitalWrite(led2,LOW);
+      delay(10000);
+      digitalWrite(led3,HIGH);
+      delay(10000);
+      digitalWrite(led3,LOW);
+      delay(10000);
+    }
+  }
+}
+
+/////////////ESCLAVO 2////////
+#include <Wire.h>;    // libreria I2C
+char caracter;        // variable char que almacena al ingresar un caracter
+const int led4=8;     // pin 8 conectado al led 4
+const int led5=9;     // pin 9 conectado al led 5
+const int led6=10;    // pin 10 conectado al led 6
+
+void setup() {
+  Wire.begin(12);                  // id del esclavo
+  Wire.onReceive(Esclavo2);     // Hace una llamada al trabajo del esclavo 2
+  Serial.begin(9600);             // comunicacion serial de corrida incial que comienza con 9600 
+  pinMode(led4,OUTPUT);           // Declaración al led 4 como salida
+  pinMode(led5,OUTPUT);           // Declaración al led 5 como salida
+  pinMode(led6,OUTPUT);           // Declaración al led 6 como salida
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+
+void Esclavo2 (int bytes){          //  Creación del evento void Esclavo 2
+  while(Wire.available())             // Verificación de disponibilidad 
+  {
+    caracter=Wire.read();                 // Lectura del dato ingresado para el esclavo 2
+    if(caracter=='2')                     //  Condicional if para la comparacion del caracter ingresado en caso se digite el valor 2
+    {
+      digitalWrite(led4,HIGH);        
+      delay(10000);
+      digitalWrite(led4,LOW);
+      delay(10000);
+      digitalWrite(led5,HIGH);
+      delay(10000);
+      digitalWrite(led5,LOW);
+      delay(10000);
+      digitalWrite(led6,HIGH);
+      delay(10000);
+      digitalWrite(led6,LOW);
+      delay(10000);
+    }
+  }
+}
+
+/////////////ESCLAVO 3////////
+#include <Wire.h>;    // libreria I2C
+char caracter;        // variable char que almacena al ingresar un caracter
+const int led7=8;     // pin 8 conectado al led 7
+const int led8=9;     // pin 9 conectado al led 8 
+const int led9=10;    // pin 10 conectado al led 9 
+
+void setup() {
+  Wire.begin(12);                  // id del esclavo
+  Wire.onReceive(Esclavo3);        // Hace una llamada al trabajo del esclavo 3
+  Serial.begin(9600);             // comunicacion serial de corrida incial que comienza con 9600 
+  pinMode(led7,OUTPUT);           // Declaración al led 7 como salida
+  pinMode(led8,OUTPUT);           // Declaración al led 8 como salida
+  pinMode(led9,OUTPUT);           // Declaración al led 9 como salida
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+
+void Esclavo3 (int bytes){          // Creación del evento void Esclavo 3
+  while(Wire.available())             // Verificación de disponibilidad 
+  {
+    caracter=Wire.read();                 //  Lectura del dato ingresado para el esclavo 3 
+    if(caracter=='3')                     // Condicional if para la comparacion del caracter ingresado en caso se digite el valor 3 
+    {
+      digitalWrite(led7,HIGH);        
+      delay(10000);
+      digitalWrite(led7,LOW);
+      delay(10000);
+      digitalWrite(led8,HIGH);
+      delay(10000);
+      digitalWrite(led8,LOW);
+      delay(10000);
+      digitalWrite(led9,HIGH);
+      delay(10000);
+      digitalWrite(led9,LOW);
+      delay(10000);
+    }
+  }
+}
